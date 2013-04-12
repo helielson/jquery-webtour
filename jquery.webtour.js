@@ -11,12 +11,12 @@
 ;(function ( $, window, document, undefined ) {
 
 /**
-  * Creates a step of tour with text, arrow and element. The position of the
-  * text is based on the arrow position, and the arrow position is based on the
-  * element position.
+  * Creates a step of tour with the text, the arrow point to element and the element.
+  * The position of the text is based on the arrow position, and the arrow position
+  * is based on the element position.
   *
-  * The place that text and arrow should be displayed is based on spots of the
-  * element and of the target.
+  * The place that the text and the arrow should be displayed is based on spots of
+  * the element and of the target.
   *
   * Spots:
   *
@@ -75,32 +75,32 @@
           top, left, width, height;
 
       // TEXT
-      var $text = $('<div/>').html('<p>'+this.options.text+'</p>')
+      var $text = $('<div/>').html('<p>' + this.options.text + '</p>')
         .width(this.options.textWidth)
         .addClass('tour-text')
-        .css('padding',this.options.textPadding);
+        .css('padding', this.options.textPadding);
 
       // NEXT BUTTON
-      var $button = $('<button/>').addClass(_this.options.button.clss)
-      .html(_this.options.button.text)
-      .on('click', function(){ // Button actions
-        var $next = $('.tour.step'+(stepIndex+1));
+      var $button = $('<button/>').addClass(this.options.button.clss)
+        .html(this.options.button.text)
+        .on('click', function() { // Button actions
+          var $next = $('.tour.step'+(stepIndex+1));
 
-        if($next.length > 0) { // Show the next step
-          $next.hide().css('visibility','visible').fadeIn();
-        } else { // Adds again the scrollbar
-          $body.css({'overflow':'initial'});
-        }
+          if($next.length > 0) { // Shows the next step
+            $next.css('visibility','visible').fadeIn();
+          } else { // Adds again the scrollbar
+            $body.css('overflow', 'initial');
+          }
 
-        // Hide this step
-        $('.tour.step'+stepIndex).fadeOut();
+          // Hide this step
+          $('.tour.step'+stepIndex).fadeOut();
 
-        _this.options.callback(); // Executes call back button
-      });
-      $text.append($button);
+          _this.options.callback(); // Executes call back button
+        });
+        $text.append($button);
 
       // Positions the arrow and the text when the image is loaded
-      var $arrow = $('<img/>').load(function(){
+      var $arrow = $('<img/>').load(function() {
         // Get arrow target coordinate (e.g {'x':0, 'y':0})
         var arrowTarget = _this.getCoordinate(_this.element, _this.options.arrowTarget);
         // Get arrow position (e.g {'left':0, 'top':0})
@@ -115,7 +115,7 @@
 
       }).attr({src: this.options.arrowImage})
         .addClass('tour-arrow')
-        .css('padding',this.options.arrowPadding);
+        .css('padding', this.options.arrowPadding);
 
       // Adds a div between the page elements and the tour elements.
       if (this.options.lock) {
@@ -132,23 +132,20 @@
       }
 
       // Adds text and arrow
-      $stepTour.append($arrow)
+      $stepTour
+        .append($arrow)
         .append($text);
 
       // Adds mask
       this.makeMask($stepTour);
 
       // Show only the first step
-      if (stepIndex == 0) {
-        $stepTour.css('visibility','visible');
-      } else {
-        $stepTour.css('visibility','hidden');
-      }
+      $stepTour.css('visibility', stepIndex == 0 ? 'visible' : 'hidden');
 
       // Append the step
       $body.append($stepTour)
-        .css({'overflow':'hidden'})
-        .data('stepIndex',stepIndex+1);
+        .css('overflow', 'hidden')
+        .data('stepIndex', stepIndex+1);
     },
 
     makeMask: function($stepTour) {
@@ -201,50 +198,42 @@
 
       //TOP MASK
       function top() {
-        $maskTop.css(
-          {
-            'top' : 0,
-            'left' : _this.element.offset().left - padding,
-            'width' : _this.element.outerWidth() + padding*2,
-            'height' : _this.element.offset().top - padding
-          }
-        );
+        $maskTop.css({
+          'top' : 0,
+          'left' : _this.element.offset().left - padding,
+          'width' : _this.element.outerWidth() + padding*2,
+          'height' : _this.element.offset().top - padding
+        });
       }
 
       //RIGHT MASK
       function right() {
-        $maskRight.css(
-          {
-            'top' : 0,
-            'right' : 0,
-            'width' : $body.outerWidth() - _this.element.offset().left - _this.element.outerWidth() - padding,
-            'height' : '100%'
-          }
-        );
+        $maskRight.css({
+          'top' : 0,
+          'right' : 0,
+          'width' : $body.outerWidth() - _this.element.offset().left - _this.element.outerWidth() - padding,
+          'height' : '100%'
+        });
       }
 
       //BOTTOM MASK
       function bottom() {
-        $maskBottom.css(
-          {
-            'bottom' : 0,
-            'left' : _this.element.offset().left - padding,
-            'width' : _this.element.outerWidth() + padding*2,
-            'height' : $body.outerHeight() - _this.element.offset().top - _this.element.outerHeight() - padding
-          }
-        );
+        $maskBottom.css({
+          'bottom' : 0,
+          'left' : _this.element.offset().left - padding,
+          'width' : _this.element.outerWidth() + padding*2,
+          'height' : $body.outerHeight() - _this.element.offset().top - _this.element.outerHeight() - padding
+        });
       }
 
       //LEFT MASK
       function left() {
-        $maskLeft.css(
-          {
-            'top' : 0,
-            'left' : 0,
-            'width' : _this.element.offset().left - padding,
-            'height' : '100%'
-          }
-        );
+        $maskLeft.css({
+          'top' : 0,
+          'left' : 0,
+          'width' : _this.element.offset().left - padding,
+          'height' : '100%'
+        });
       }
 
       function positionMask() {
